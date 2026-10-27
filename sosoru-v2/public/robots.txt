@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap: add the production domain before launch, e.g.
+# https://example.com/sitemap.xml
