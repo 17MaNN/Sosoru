@@ -68,6 +68,12 @@
     overflow: hidden;
   }
 
+  /* Set while the mobile menu is open, so neither Lenis nor the page moves. */
+  html.is-locked,
+  html.is-locked body {
+    overflow: hidden;
+  }
+
   /* Motion ---------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -88,5 +94,19 @@
 
   .eyebrow {
     @apply text-label uppercase;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hanko: a struck seal, used for the signature tags. */
+  .hanko {
+    @apply inline-flex h-14 w-14 shrink-0 -rotate-[7deg] items-center justify-center border border-honey/70 text-center font-jp text-[10px] leading-[1.25] tracking-[0.08em] text-honey;
+    box-shadow: inset 0 0 0 2px rgba(244, 239, 230, 0.9), inset 0 0 0 3px rgba(201, 143, 79, 0.45);
   }
 }

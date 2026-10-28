@@ -31,6 +31,28 @@ export default {
       },
       transitionTimingFunction: { craft: 'cubic-bezier(0.22, 1, 0.36, 1)' },
       transitionDuration: { '1200': '1200ms' },
+      keyframes: {
+        bob: {
+          '0%, 100%': { transform: 'translate3d(0, 0, 0)' },
+          '50%': { transform: 'translate3d(0, -17px, 0)' },
+        },
+        glow: {
+          '0%, 100%': { opacity: '0.42' },
+          '50%': { opacity: '0.78' },
+        },
+        'scroll-line': {
+          '0%': { transform: 'scaleY(0)', transformOrigin: 'top' },
+          '45%': { transform: 'scaleY(1)', transformOrigin: 'top' },
+          '55%': { transform: 'scaleY(1)', transformOrigin: 'bottom' },
+          '100%': { transform: 'scaleY(0)', transformOrigin: 'bottom' },
+        },
+      },
+      animation: {
+        bob: 'bob 8s ease-in-out infinite',
+        'bob-slow': 'bob 12s ease-in-out infinite',
+        glow: 'glow 9s ease-in-out infinite',
+        'scroll-line': 'scroll-line 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite',
+      },
     },
   },
   plugins: [],

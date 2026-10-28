@@ -44,13 +44,12 @@ export const hours = {
   note: 'Kitchen and bar close at 23:00. Holiday hours are confirmed by the restaurant.',
 }
 
+/** Order matters: the header highlights these as they cross the viewport. */
 export const navLinks = [
-  { label: 'Home', href: '#top' },
   { label: 'Story', href: '#story' },
   { label: 'Menu', href: '#menu' },
-  { label: 'Our Space', href: '#space' },
-  { label: 'Reservations', href: '#reservations' },
-  { label: 'Find Us', href: '#find-us' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Visit', href: '#visit' },
 ]
 
 export const images = {
@@ -115,11 +114,21 @@ export const gallery = [
   },
 ]
 
+/**
+ * Signature dishes. `src` is null because there is no dish photography yet —
+ * the card falls back to its carved kanji. Drop an image path in and the plate
+ * becomes a photograph with the same zoom.
+ * `kanji` is the category glyph, `seal` the hanko stamp.
+ */
 export const signatures = [
   {
     index: '01',
     name: 'Maki, cut to order',
     note: 'Sushi & rolls',
+    kanji: '寿司',
+    seal: '巻',
+    src: null,
+    alt: '',
     description:
       'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top. Pickled ginger and wasabi at the edge of the plate.',
   },
@@ -127,6 +136,10 @@ export const signatures = [
     index: '02',
     name: 'Katsu curry',
     note: 'Mains',
+    kanji: '咖喱',
+    seal: '揚',
+    src: null,
+    alt: '',
     description:
       'A panko-crusted cutlet, sliced over rice and soft egg, with spring onion curling across the top and a glossy curry beneath.',
   },
@@ -134,6 +147,10 @@ export const signatures = [
     index: '03',
     name: 'Kimchi fried rice',
     note: 'Mains',
+    kanji: '炒飯',
+    seal: '炒',
+    src: null,
+    alt: '',
     description:
       'Kimchi folded through rice with sesame, a fried egg on top and cool lettuce on the side to cut the heat.',
   },
@@ -141,6 +158,10 @@ export const signatures = [
     index: '04',
     name: 'Sake, poured cold',
     note: 'The bar',
+    kanji: '酒',
+    seal: '酒',
+    src: null,
+    alt: '',
     description:
       'A small ceramic carafe and cup, painted with plum blossom, brought to the table with the first plates.',
   },
