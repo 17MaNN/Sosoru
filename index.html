@@ -1,29 +1,31 @@
 <!doctype html>
-<html lang="en-IN" class="no-js">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#F4F0E8" />
+    <meta name="theme-color" content="#F4EFE6" />
     <meta name="color-scheme" content="light" />
 
-    <title>Sosoru — Pan-Asian Restaurant &amp; Bar, Rajpur Road, Dehradun</title>
+    <title>Sosoru — Japanese &amp; Pan-Asian dining, Rajpur Road, Dehradun</title>
     <meta
       name="description"
-      content="Sosoru is a Pan-Asian restaurant and bar on Rajpur Road, Dehradun: sushi, robata, ramen, sake and slow evenings in a room of timber, lattice screens and warm light. Open daily, 11:00–23:00."
+      content="The Pan Asian Restaurant &amp; Bar on Rajpur Road, Dehradun: timber, kumiko lattice and low warm light, with sushi, robata, ramen and sake served slowly. Open daily, 11:00–23:00."
     />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="author" content="Sosoru" />
+
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Sharing previews. Replace the relative image path with an absolute URL
-         on the production domain once it is confirmed. -->
     <meta property="og:type" content="restaurant.restaurant" />
     <meta property="og:site_name" content="Sosoru" />
     <meta property="og:locale" content="en_IN" />
     <meta property="og:title" content="Sosoru — Pan-Asian Restaurant &amp; Bar, Dehradun" />
     <meta
       property="og:description"
-      content="Timber, lattice screens and low warm light on Rajpur Road. Sushi, robata, ramen and sake, served late in Dehradun."
+      content="Timber, kumiko lattice and low warm light on Rajpur Road. Sushi, robata, ramen and sake, served late in Dehradun."
     />
     <meta property="og:image" content="/images/social-preview.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -36,12 +38,19 @@
     <meta name="twitter:title" content="Sosoru — Pan-Asian Restaurant &amp; Bar, Dehradun" />
     <meta
       name="twitter:description"
-      content="Timber, lattice screens and low warm light on Rajpur Road. Sushi, robata, ramen and sake, served late in Dehradun."
+      content="Timber, kumiko lattice and low warm light on Rajpur Road. Sushi, robata, ramen and sake, served late in Dehradun."
     />
     <meta name="twitter:image" content="/images/social-preview.jpg" />
 
-    <link rel="preload" as="image" href="/images/interior-hero.webp" media="(min-width: 701px)" fetchpriority="high" />
-    <link rel="preload" as="image" href="/images/interior-hero-portrait.webp" media="(max-width: 700px)" fetchpriority="high" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Shippori+Mincho:wght@400;500;600&display=swap"
+    />
+
+    <link rel="preload" as="image" href="/images/interior-hero.webp" media="(min-width: 901px)" />
+    <link rel="preload" as="image" href="/images/interior-hero-portrait.webp" media="(max-width: 900px)" />
 
     <script type="application/ld+json">
       {
@@ -72,15 +81,9 @@
         "sameAs": ["https://www.instagram.com/sosoru.in/"]
       }
     </script>
-
-    <script>
-      // Progressive enhancement marker: reveal animations only run with JS.
-      document.documentElement.classList.remove('no-js')
-      document.documentElement.classList.add('js')
-    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
