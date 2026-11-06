@@ -53,7 +53,7 @@ export default function Menu() {
           <div
             role="tablist"
             aria-label="Menu categories"
-            className="no-scrollbar -mx-6 flex gap-7 overflow-x-auto px-6 sm:mx-0 sm:px-0"
+            className="flex flex-wrap gap-x-8 gap-y-2"
           >
             {menuCategories.map((category, index) => (
               <button
@@ -69,17 +69,25 @@ export default function Menu() {
                 onClick={() => setActiveId(category.id)}
                 onKeyDown={(event) => onTabKey(event, index)}
                 className={`relative shrink-0 pb-4 pt-1 transition-colors duration-300 ${
-                  activeId === category.id ? 'text-ink' : 'text-ink/45 hover:text-ink/75'
+                  activeId === category.id ? 'text-ink' : 'text-ink/60 hover:text-ink'
                 }`}
               >
-                <span className="flex items-baseline gap-2">
-                  <span className="text-[9px] tracking-[0.2em]">{category.index}</span>
-                  <span className="font-display text-[1.15rem] leading-none">{category.label}</span>
+                <span className="flex items-baseline gap-2.5">
+                  <span
+                    className={`font-ui text-[10px] tracking-[0.2em] ${
+                      activeId === category.id ? 'text-honey' : 'text-ink/35'
+                    }`}
+                  >
+                    {category.index}
+                  </span>
+                  <span className="font-display text-[1.45rem] font-semibold leading-none sm:text-[1.7rem]">
+                    {category.label}
+                  </span>
                 </span>
                 {activeId === category.id ? (
                   <motion.span
                     layoutId="menu-underline"
-                    className="absolute inset-x-0 -bottom-px h-[2px] bg-honey"
+                    className="absolute inset-x-0 -bottom-px h-[3px] bg-honey"
                     transition={{ type: 'spring', stiffness: 380, damping: 34 }}
                   />
                 ) : null}
