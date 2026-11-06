@@ -7,12 +7,18 @@ const reduced = () =>
 // One page, one instance — kept at module scope so any component can stop it.
 let active = null
 
-/** Freeze the page for an overlay. Falls back to CSS when Lenis is off. */
+/**
+ * Freeze the page for an overlay. Reference counted, because the mobile menu,
+ * the lightbox and the reservation dialog can overlap.
+ */
+let locks = 0
+
 export function lockScroll(locked) {
   if (typeof document === 'undefined') return
-  document.documentElement.classList.toggle('is-locked', locked)
+  locks = Math.max(0, locks + (locked ? 1 : -1))
+  document.documentElement.classList.toggle('is-locked', locks > 0)
   if (!active) return
-  if (locked) active.stop()
+  if (locks > 0) active.stop()
   else active.start()
 }
 

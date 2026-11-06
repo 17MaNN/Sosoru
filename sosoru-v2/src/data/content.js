@@ -28,6 +28,9 @@ export const contact = {
   },
 }
 
+/** Digits only, for the wa.me link built in the reservation form. */
+export const whatsappNumber = '919105383737'
+
 export const address = {
   line1: '81A Rajpur Road',
   line2: 'Dilaram Bazar, near BIBA',
@@ -36,11 +39,21 @@ export const address = {
   country: 'India',
   note: 'Next to BIBA in Dilaram Bazar. Directions open in Google Maps.',
   lines: ['81A Rajpur Road', 'Dilaram Bazar, near BIBA', 'Dehradun, Uttarakhand'],
+  mapQuery: 'Sosoru, 81A Rajpur Road, Dilaram Bazar, Dehradun',
 }
 
+/** Monday first, so `(getDay() + 6) % 7` indexes this list directly. */
 export const hours = {
   short: 'Daily · 11:00 — 23:00',
-  rows: [{ label: 'Monday — Sunday', value: '11:00 — 23:00' }],
+  days: [
+    { day: 'Monday', hours: '11:00 — 23:00' },
+    { day: 'Tuesday', hours: '11:00 — 23:00' },
+    { day: 'Wednesday', hours: '11:00 — 23:00' },
+    { day: 'Thursday', hours: '11:00 — 23:00' },
+    { day: 'Friday', hours: '11:00 — 23:00' },
+    { day: 'Saturday', hours: '11:00 — 23:00' },
+    { day: 'Sunday', hours: '11:00 — 23:00' },
+  ],
   note: 'Kitchen and bar close at 23:00. Holiday hours are confirmed by the restaurant.',
 }
 
@@ -112,6 +125,22 @@ export const gallery = [
     ratio: '4 / 5',
     position: '50% 45%',
   },
+  {
+    src: images.heroPortrait,
+    alt: 'The Sosoru dining room seen from the entrance: palms, timber beams and low pendant globes.',
+    caption: 'From the door',
+    jp: '入口',
+    ratio: '4 / 5',
+    position: '50% 55%',
+  },
+  {
+    src: images.hero,
+    alt: 'Timber beams crossing the Sosoru ceiling above the dining tables.',
+    caption: 'Beams and pendants',
+    jp: '梁',
+    ratio: '16 / 10',
+    position: '50% 40%',
+  },
 ]
 
 /**
@@ -168,12 +197,12 @@ export const signatures = [
 ]
 
 /**
- * Preview menu. `price` is null everywhere on purpose: the restaurant does not
- * publish prices in a form we could verify, and inventing them would mislead.
- * Fill them in when the verified list arrives.
+ * PREVIEW PRICING — these rupee figures are indicative, chosen so the page can
+ * be laid out and tested. Replace them with the restaurant's own card before
+ * launch; `menuNote` says as much on the page. `price: null` renders nothing.
  */
 export const menuNote =
-  'A preview menu, grouped the way dishes arrive at the table. Prices are confirmed in the restaurant and are not published here.'
+  'A preview menu, grouped the way dishes arrive at the table. Prices shown are indicative for this layout — confirm them with the restaurant before launch.'
 
 export const menuCategories = [
   {
@@ -182,10 +211,10 @@ export const menuCategories = [
     label: 'Starters',
     blurb: 'The part of the menu that arrives first and gets ordered twice.',
     items: [
-      { name: 'Prawn tempura', desc: 'Light batter, straight from hot oil, a bowl of dipping sauce on the side.', price: null, veg: false, tag: 'Contains shellfish' },
-      { name: 'Chicken gyoza', desc: 'Pan-fried dumplings, pleated by hand, with a black vinegar dip.', price: null, veg: false },
-      { name: 'Kimchi, house style', desc: 'Fermented cabbage with chilli and garlic, served cold.', price: null, veg: true, tag: 'Spicy' },
-      { name: 'Corndog jjangmyeon', desc: 'A Korean noodle bowl with a crisp corndog, black bean sauce and pickles.', price: null, veg: false },
+      { name: 'Prawn tempura', desc: 'Light batter, straight from hot oil, a bowl of dipping sauce on the side.', price: 425, veg: false, tag: 'Contains shellfish' },
+      { name: 'Chicken gyoza', desc: 'Pan-fried dumplings, pleated by hand, with a black vinegar dip.', price: 345, veg: false },
+      { name: 'Kimchi, house style', desc: 'Fermented cabbage with chilli and garlic, served cold.', price: 295, veg: true, tag: 'Spicy' },
+      { name: 'Corndog jjangmyeon', desc: 'A Korean noodle bowl with a crisp corndog, black bean sauce and pickles.', price: 425, veg: false },
     ],
   },
   {
@@ -194,10 +223,10 @@ export const menuCategories = [
     label: 'Sushi & Rolls',
     blurb: 'Rolled and sliced to order, plated on leaves with pickled ginger and wasabi.',
     items: [
-      { name: 'Signature maki roll', desc: 'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top.', price: null, veg: false, tag: 'Spicy' },
-      { name: 'Salmon nigiri', desc: 'Slices of salmon over hand-pressed rice, brushed lightly with soy.', price: null, veg: false, tag: 'Contains fish' },
-      { name: 'Sashimi plate', desc: 'A selection of the day’s fish, sliced and served without rice.', price: null, veg: false, tag: 'Contains fish' },
-      { name: 'Crisp prawn tempura roll', desc: 'Tempura prawn, avocado and cucumber, rolled inside-out with sesame.', price: null, veg: false, tag: 'Contains shellfish' },
+      { name: 'Signature maki roll', desc: 'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top.', price: 495, veg: false, tag: 'Spicy' },
+      { name: 'Salmon nigiri', desc: 'Slices of salmon over hand-pressed rice, brushed lightly with soy.', price: 465, veg: false, tag: 'Contains fish' },
+      { name: 'Sashimi plate', desc: 'A selection of the day’s fish, sliced and served without rice.', price: 795, veg: false, tag: 'Contains fish' },
+      { name: 'Crisp prawn tempura roll', desc: 'Tempura prawn, avocado and cucumber, rolled inside-out with sesame.', price: 545, veg: false, tag: 'Contains shellfish' },
     ],
   },
   {
@@ -206,12 +235,12 @@ export const menuCategories = [
     label: 'Mains',
     blurb: 'Charcoal, rice and deep bowls — dishes built to be shared across the table.',
     items: [
-      { name: 'Katsu curry', desc: 'Panko-crusted cutlet over rice with a soft egg, spring onion and a glossy curry.', price: null, veg: false },
-      { name: 'Kimchi fried rice', desc: 'Rice folded through kimchi and sesame, a fried egg on top, cool lettuce alongside.', price: null, veg: false, tag: 'Spicy' },
-      { name: 'Robata chicken skewers', desc: 'Mirin and soy glaze, grilled over heat until the edges catch.', price: null, veg: false },
-      { name: 'Teriyaki salmon', desc: 'Glazed salmon with sesame and spring onion, steamed rice on the side.', price: null, veg: false, tag: 'Contains fish' },
-      { name: 'Pork bulgogi', desc: 'Thin-sliced pork in a sweet-savoury marinade, grilled and wrapped in lettuce.', price: null, veg: false, tag: 'Spicy' },
-      { name: 'Japanese curry rice', desc: 'A gentler curry built for rice, with vegetables and pickles.', price: null, veg: true },
+      { name: 'Katsu curry', desc: 'Panko-crusted cutlet over rice with a soft egg, spring onion and a glossy curry.', price: 545, veg: false },
+      { name: 'Kimchi fried rice', desc: 'Rice folded through kimchi and sesame, a fried egg on top, cool lettuce alongside.', price: 425, veg: false, tag: 'Spicy' },
+      { name: 'Robata chicken skewers', desc: 'Mirin and soy glaze, grilled over heat until the edges catch.', price: 465, veg: false },
+      { name: 'Teriyaki salmon', desc: 'Glazed salmon with sesame and spring onion, steamed rice on the side.', price: 645, veg: false, tag: 'Contains fish' },
+      { name: 'Pork bulgogi', desc: 'Thin-sliced pork in a sweet-savoury marinade, grilled and wrapped in lettuce.', price: 595, veg: false, tag: 'Spicy' },
+      { name: 'Japanese curry rice', desc: 'A gentler curry built for rice, with vegetables and pickles.', price: 445, veg: true },
     ],
   },
   {
@@ -220,10 +249,10 @@ export const menuCategories = [
     label: 'Ramen & Noodles',
     blurb: 'Bowls that arrive too hot to touch, and are gone before they cool.',
     items: [
-      { name: 'Tokyo ramen', desc: 'Clear broth, springy noodles, egg, greens and a sheet of nori.', price: null, veg: false },
-      { name: 'Udon', desc: 'Thick wheat noodles in a light broth with vegetables.', price: null, veg: true },
-      { name: 'Hakka noodles', desc: 'Wok-tossed noodles with vegetables and a slow-building heat.', price: null, veg: true, tag: 'Spicy' },
-      { name: 'Chilli garlic noodles', desc: 'Roasted garlic, dried chilli, scallion and plenty of wok smoke.', price: null, veg: true, tag: 'Spicy' },
+      { name: 'Tokyo ramen', desc: 'Clear broth, springy noodles, egg, greens and a sheet of nori.', price: 445, veg: false },
+      { name: 'Udon', desc: 'Thick wheat noodles in a light broth with vegetables.', price: 375, veg: true },
+      { name: 'Hakka noodles', desc: 'Wok-tossed noodles with vegetables and a slow-building heat.', price: 345, veg: true, tag: 'Spicy' },
+      { name: 'Chilli garlic noodles', desc: 'Roasted garlic, dried chilli, scallion and plenty of wok smoke.', price: 345, veg: true, tag: 'Spicy' },
     ],
   },
   {
@@ -232,8 +261,8 @@ export const menuCategories = [
     label: 'Desserts',
     blurb: 'One or two, ordered after the plates are cleared.',
     items: [
-      { name: 'Mango sticky rice', desc: 'Coconut-soaked rice, ripe mango, a scatter of sesame.', price: null, veg: true, tag: 'Seasonal' },
-      { name: 'Mochi', desc: 'Soft rice cakes with a sweet filling, served cool.', price: null, veg: true },
+      { name: 'Mango sticky rice', desc: 'Coconut-soaked rice, ripe mango, a scatter of sesame.', price: 295, veg: true, tag: 'Seasonal' },
+      { name: 'Mochi', desc: 'Soft rice cakes with a sweet filling, served cool.', price: 245, veg: true },
     ],
   },
   {
@@ -242,10 +271,92 @@ export const menuCategories = [
     label: 'Drinks',
     blurb: 'Sake, highballs and long drinks, poured at the back of the room.',
     items: [
-      { name: 'Sake, served cold', desc: 'A small carafe and cup, poured at the table.', price: null, veg: true },
-      { name: 'Japanese highball', desc: 'Whisky, ice and soda, built tall.', price: null, veg: true },
-      { name: 'Plum wine', desc: 'Sweet, low and served over ice.', price: null, veg: true },
+      { name: 'Sake, served cold', desc: 'A small carafe and cup, poured at the table.', price: 595, veg: true },
+      { name: 'Japanese highball', desc: 'Whisky, ice and soda, built tall.', price: 445, veg: true },
+      { name: 'Plum wine', desc: 'Sweet, low and served over ice.', price: 395, veg: true },
     ],
+  },
+]
+
+/**
+ * The mood picker's pool. Every one of the eight answer combinations resolves
+ * to at least one dish, so no tap ever dead-ends.
+ */
+export const moodDishes = [
+  { name: 'Udon', desc: 'Thick wheat noodles in a light broth, ready in minutes.', price: 375, veg: true, weight: 'light', temp: 'hot' },
+  { name: 'Kimchi, house style', desc: 'Fermented cabbage with chilli and garlic, served cold.', price: 295, veg: true, weight: 'light', temp: 'cold' },
+  { name: 'Mochi', desc: 'Soft rice cakes with a sweet filling, served cool.', price: 245, veg: true, weight: 'light', temp: 'cold' },
+  { name: 'Prawn tempura', desc: 'Light batter, straight from hot oil, dipping sauce alongside.', price: 425, veg: false, weight: 'light', temp: 'hot' },
+  { name: 'Salmon nigiri', desc: 'Slices of salmon over hand-pressed rice, brushed with soy.', price: 465, veg: false, weight: 'light', temp: 'cold' },
+  { name: 'Signature maki roll', desc: 'Rice rolled tight around a crisp fried centre, chilli-orange top.', price: 495, veg: false, weight: 'light', temp: 'cold' },
+  { name: 'Japanese curry rice', desc: 'A gentler curry built for rice, with vegetables and pickles.', price: 445, veg: true, weight: 'hearty', temp: 'hot' },
+  { name: 'Chilli garlic noodles', desc: 'Roasted garlic, dried chilli, scallion and plenty of wok smoke.', price: 345, veg: true, weight: 'hearty', temp: 'hot' },
+  { name: 'Mango sticky rice', desc: 'Coconut-soaked rice, ripe mango, a scatter of sesame.', price: 295, veg: true, weight: 'hearty', temp: 'cold' },
+  { name: 'Tokyo ramen', desc: 'Clear broth, springy noodles, egg, greens and a sheet of nori.', price: 445, veg: false, weight: 'hearty', temp: 'hot' },
+  { name: 'Katsu curry', desc: 'Panko cutlet over rice with a soft egg and a glossy curry.', price: 545, veg: false, weight: 'hearty', temp: 'hot' },
+  { name: 'Sashimi plate', desc: 'The day’s fish, sliced and served without rice — built to share.', price: 795, veg: false, weight: 'hearty', temp: 'cold' },
+]
+
+export const moodQuestions = [
+  {
+    key: 'weight',
+    prompt: 'How hungry are you?',
+    jp: '腹',
+    options: [
+      { value: 'light', label: 'Light', note: 'A plate or two' },
+      { value: 'hearty', label: 'Hearty', note: 'Something that fills' },
+    ],
+  },
+  {
+    key: 'veg',
+    prompt: 'Anything off the table?',
+    jp: '菜',
+    options: [
+      { value: true, label: 'Vegetarian', note: 'No meat, no fish' },
+      { value: false, label: 'Anything', note: 'Meat and fish welcome' },
+    ],
+  },
+  {
+    key: 'temp',
+    prompt: 'What does the weather call for?',
+    jp: '温',
+    options: [
+      { value: 'hot', label: 'Something hot', note: 'Steam off the bowl' },
+      { value: 'cold', label: 'Something cold', note: 'Cool and clean' },
+    ],
+  },
+]
+
+export const seating = [
+  {
+    id: 'table',
+    label: 'Table',
+    jp: '卓',
+    image: images.table,
+    alt: 'A round timber table set with glassware, cushioned chairs and potted palms.',
+    description:
+      'Round timber tables under the pendant globes, set with linen and glass. The room is quiet enough to talk across a table without raising your voice.',
+    note: 'Seats two to six · best for dinner',
+  },
+  {
+    id: 'zashiki',
+    label: 'Floor seating',
+    jp: '座敷',
+    image: images.screen,
+    alt: 'A timber lattice screen with the bar counter and backlit shelving beyond.',
+    description:
+      'The raised platform behind the lattice: low tables, cushions, and white pebbles under the bench edge. Shoes off, knees up, plates shared down the middle.',
+    note: 'Seats four to eight · zashiki',
+  },
+  {
+    id: 'bar',
+    label: 'Bar',
+    jp: '酒場',
+    image: images.evening,
+    alt: 'The Sosoru room after dark, lit by low pendant lights with the lattice in shadow.',
+    description:
+      'The counter at the back of the room, where sake is poured cold and highballs are built tall. Walk-ins are easiest to seat here.',
+    note: 'Seats six at the counter · no booking needed',
   },
 ]
 
@@ -253,6 +364,15 @@ export const reservations = {
   eyebrow: '06 — Reservations',
   en: 'Book a table',
   jp: '予約',
-  lead: 'Tables for two through to the long table at the back. Call for same-day bookings and groups of six or more.',
+  lead: 'Tables for two through to the long table at the back. Send the details and the restaurant confirms on WhatsApp.',
   slots: ['Lunch · 12:00 — 15:00', 'Evening · 18:00 — 23:00'],
+  times: ['12:00', '13:00', '14:00', '18:30', '19:30', '20:30', '21:30'],
+  guests: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+}
+
+export const visit = {
+  eyebrow: '07 — Visit',
+  en: 'Rajpur Road, Dehradun',
+  jp: '来店',
+  lead: 'Next to BIBA in Dilaram Bazar. The dining room and the bar are open every day, 11:00 until 23:00.',
 }

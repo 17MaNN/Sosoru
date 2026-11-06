@@ -13,7 +13,7 @@ const LANTERNS = [
   { left: '58%', top: '58%', size: 360, delay: '-2.5s', drift: 'animate-bob' },
 ]
 
-export default function Hero() {
+export default function Hero({ onReserve }) {
   const reduce = useReducedMotion()
 
   return (
@@ -96,7 +96,7 @@ export default function Hero() {
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <Button href="#reservations" variant="solid" icon={ArrowUpRight}>
+              <Button onClick={onReserve} variant="solid" icon={ArrowUpRight}>
                 Reserve a table
               </Button>
               <Button href="#menu" variant="outline">

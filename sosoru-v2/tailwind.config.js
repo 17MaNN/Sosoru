@@ -8,6 +8,8 @@ export default {
         ink: '#141414',
         honey: '#C98F4F',
         slate: '#2B3A4A',
+        // Functional only: the hanko stamp and the non-veg dot.
+        seal: '#9C4A3C',
       },
       fontFamily: {
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],

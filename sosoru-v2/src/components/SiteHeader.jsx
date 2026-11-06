@@ -13,7 +13,7 @@ const LATTICE = {
     'repeating-linear-gradient(45deg, #C98F4F 0 1px, transparent 1px 34px), repeating-linear-gradient(-45deg, #C98F4F 0 1px, transparent 1px 34px)',
 }
 
-export default function SiteHeader() {
+export default function SiteHeader({ onReserve }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const toggleRef = useRef(null)
@@ -29,8 +29,8 @@ export default function SiteHeader() {
   }, [])
 
   useEffect(() => {
-    lockScroll(open)
     if (!open) return
+    lockScroll(true)
 
     panelRef.current?.querySelector('button')?.focus()
     const onKeyDown = (event) => {
@@ -88,7 +88,7 @@ export default function SiteHeader() {
 
           <div className="flex items-center gap-4">
             <Button
-              href="#reservations"
+              onClick={onReserve}
               size="sm"
               variant={scrolled ? 'solid' : 'light'}
               className="hidden sm:inline-flex"
