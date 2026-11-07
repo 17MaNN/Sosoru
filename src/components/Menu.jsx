@@ -16,6 +16,8 @@ const FILTERS = [
 const matches = (item, filter) =>
   filter === 'all' || (filter === 'veg' ? item.veg : !item.veg)
 
+const POURS = new Set(['drinks', 'sober'])
+
 export default function Menu() {
   const [activeId, setActiveId] = useState(menuCategories[0].id)
   const [filter, setFilter] = useState('all')
@@ -24,7 +26,11 @@ export default function Menu() {
   const { picks, toggle, remove, has } = usePicks()
 
   const active = menuCategories.find((category) => category.id === activeId) ?? menuCategories[0]
-  const items = active.items.filter((item) => matches(item, filter))
+  const groups = active.groups
+    .map((group) => ({ ...group, items: group.items.filter((item) => matches(item, filter)) }))
+    .filter((group) => group.items.length)
+  const total = groups.reduce((count, group) => count + group.items.length, 0)
+  const pickId = (item) => `${active.id}-${item.name}`
 
   const onTabKey = (event, index) => {
     let next = index
@@ -44,7 +50,7 @@ export default function Menu() {
       <div className="shell">
         <SectionTitle
           index="The menu"
-          en="Six sections, one long evening"
+          en={`${menuCategories.length} sections, one long evening`}
           jp="品書"
           lead={active.blurb}
         />
@@ -53,7 +59,7 @@ export default function Menu() {
           <div
             role="tablist"
             aria-label="Menu categories"
-            className="flex flex-wrap gap-x-8 gap-y-2"
+            className="flex flex-wrap gap-x-7 gap-y-2"
           >
             {menuCategories.map((category, index) => (
               <button
@@ -68,19 +74,19 @@ export default function Menu() {
                 tabIndex={activeId === category.id ? 0 : -1}
                 onClick={() => setActiveId(category.id)}
                 onKeyDown={(event) => onTabKey(event, index)}
-                className={`relative shrink-0 pb-4 pt-1 transition-colors duration-300 ${
+                className={`relative shrink-0 pb-3.5 pt-1 transition-colors duration-300 ${
                   activeId === category.id ? 'text-ink' : 'text-ink/60 hover:text-ink'
                 }`}
               >
-                <span className="flex items-baseline gap-2.5">
+                <span className="flex items-baseline gap-2">
                   <span
-                    className={`font-ui text-[10px] tracking-[0.2em] ${
+                    className={`font-ui text-[9px] tracking-[0.2em] ${
                       activeId === category.id ? 'text-honey' : 'text-ink/35'
                     }`}
                   >
                     {category.index}
                   </span>
-                  <span className="font-display text-[1.45rem] font-semibold leading-none sm:text-[1.7rem]">
+                  <span className="font-display text-[1.2rem] font-semibold leading-none sm:text-[1.5rem]">
                     {category.label}
                   </span>
                 </span>
@@ -155,7 +161,7 @@ export default function Menu() {
                     {picks.length ? (
                       <ul className="mt-3 grid gap-2">
                         {picks.map((pick) => (
-                          <li key={pick.name} className="flex items-center gap-2.5 border-b border-ink/10 pb-2">
+                          <li key={pick.id} className="flex items-center gap-2.5 border-b border-ink/10 pb-2">
                             <DietMark veg={pick.veg} />
                             <span className="flex-1 text-[13px] leading-tight">{pick.name}</span>
                             <span className="text-[13px] text-ink/60">
@@ -163,7 +169,7 @@ export default function Menu() {
                             </span>
                             <button
                               type="button"
-                              onClick={() => remove(pick.name)}
+                              onClick={() => remove(pick.id)}
                               aria-label={`Remove ${pick.name}`}
                               className="text-ink/35 transition-colors hover:text-seal"
                             >
@@ -195,76 +201,119 @@ export default function Menu() {
           id={`menu-panel-${active.id}`}
           aria-labelledby={`menu-tab-${active.id}`}
           tabIndex={-1}
-          className="mt-2"
+          className="mt-8"
         >
-          <motion.ul layout className="grid gap-x-14 sm:grid-cols-2">
-            <AnimatePresence mode="popLayout" initial={false}>
-              {items.map((item) => (
-                <motion.li
-                  layout
-                  key={`${active.id}-${item.name}`}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex items-start gap-3 border-b border-ink/10 py-5"
-                >
-                  <DietMark veg={item.veg} className="mt-[7px]" />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={`${active.id}-${filter}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-ink/15 pb-3">
+                <h3 className="font-display text-[1.55rem] leading-none text-ink sm:text-[1.85rem]">
+                  {active.title}
+                </h3>
+                {active.jp ? (
+                  <span className="font-jp text-[12px] tracking-[0.28em] text-ink/35">{active.jp}</span>
+                ) : null}
+                <span className="ml-auto text-[9px] uppercase tracking-[0.22em] text-ink/35">
+                  {total} {POURS.has(active.id) ? 'pours' : 'plates'}
+                </span>
+              </div>
 
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-baseline gap-3">
-                      <h3 className="font-display text-[1.22rem] leading-snug text-ink">{item.name}</h3>
-                      <span
-                        aria-hidden
-                        className="hidden h-px flex-1 border-b border-dotted border-ink/25 sm:block"
-                      />
-                      <span className="font-display text-[1.05rem] text-ink/75">
-                        {item.price ? `₹${item.price}` : ''}
-                      </span>
+              {groups.map((group, groupIndex) => (
+                <div key={group.title ?? groupIndex} className="mt-8 first:mt-6">
+                  {group.title ? (
+                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                      <h4 className="eyebrow text-honey">{group.title}</h4>
+                      {group.note ? (
+                        <span className="text-[11px] leading-relaxed tracking-[0.03em] text-ink/45">
+                          {group.note}
+                        </span>
+                      ) : null}
+                      <span aria-hidden className="ml-auto hidden h-px w-16 bg-ink/15 sm:block" />
                     </div>
+                  ) : group.note ? (
+                    <p className="text-[11px] tracking-[0.03em] text-ink/45">{group.note}</p>
+                  ) : null}
 
-                    <p className="mt-1 max-w-[46ch] text-[13.5px] leading-relaxed text-ink/60">
-                      {item.desc}
-                    </p>
+                  <ul className="mt-1 grid gap-x-14 sm:grid-cols-2">
+                    {group.items.map((item) => (
+                      <li
+                        key={item.name}
+                        className="flex items-start gap-3 border-b border-ink/10 py-4"
+                      >
+                        <DietMark veg={item.veg} className="mt-[7px]" />
 
-                    {item.tag ? (
-                      <p className="mt-2 text-[9px] uppercase tracking-[0.2em] text-honey">{item.tag}</p>
-                    ) : null}
-                  </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-baseline gap-3">
+                            <h5 className="font-display text-[1.18rem] leading-snug text-ink">
+                              {item.name}
+                            </h5>
+                            <span
+                              aria-hidden
+                              className="hidden h-px flex-1 border-b border-dotted border-ink/25 sm:block"
+                            />
+                            <span className="whitespace-nowrap font-display text-[1.02rem] text-ink/75">
+                              {item.price ? `₹${item.price}` : ''}
+                            </span>
+                          </div>
 
-                  <button
-                    type="button"
-                    onClick={() => toggle(item)}
-                    aria-pressed={has(item.name)}
-                    aria-label={has(item.name) ? `Remove ${item.name} from picks` : `Add ${item.name} to picks`}
-                    className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center border transition-colors duration-300 ${
-                      has(item.name)
-                        ? 'border-honey bg-honey text-ink'
-                        : 'border-ink/20 text-ink/60 hover:border-ink hover:text-ink'
-                    }`}
-                  >
-                    {has(item.name) ? (
-                      <Check className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
-                    ) : (
-                      <Plus className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
-                    )}
-                  </button>
-                </motion.li>
+                          {item.desc ? (
+                            <p className="mt-1 max-w-[46ch] text-[13.5px] leading-relaxed text-ink/60">
+                              {item.desc}
+                            </p>
+                          ) : null}
+
+                          {item.tag ? (
+                            <p className="mt-2 text-[9px] uppercase tracking-[0.2em] text-honey">
+                              {item.tag}
+                            </p>
+                          ) : null}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => toggle({ ...item, id: pickId(item) })}
+                          aria-pressed={has(pickId(item))}
+                          aria-label={
+                            has(pickId(item))
+                              ? `Remove ${item.name} from picks`
+                              : `Add ${item.name} to picks`
+                          }
+                          className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center border transition-colors duration-300 ${
+                            has(pickId(item))
+                              ? 'border-honey bg-honey text-ink'
+                              : 'border-ink/20 text-ink/60 hover:border-ink hover:text-ink'
+                          }`}
+                        >
+                          {has(pickId(item)) ? (
+                            <Check className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
+                          ) : (
+                            <Plus className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+                          )}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </AnimatePresence>
-          </motion.ul>
 
-          {items.length === 0 ? (
-            <p className="py-10 text-[14px] text-ink/50">
-              No {filter === 'veg' ? 'vegetarian' : 'non-vegetarian'} plates in this section yet — try another
-              tab.
-            </p>
-          ) : null}
+              {total === 0 ? (
+                <p className="py-10 text-[14px] text-ink/50">
+                  No {filter === 'veg' ? 'vegetarian' : 'non-vegetarian'} dishes in this section — try
+                  another tab.
+                </p>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        <p className="mt-8 max-w-read text-[11.5px] leading-relaxed text-ink/40">
-          Prices are indicative for this page and are confirmed with the restaurant. Allergens: ask the
-          kitchen before ordering.
+        <p className="mt-9 max-w-read text-[11.5px] leading-relaxed text-ink/40">
+          Prices in rupees. Dishes carrying several prices are priced by protein or by serve. Tell the
+          kitchen about allergies before ordering.
         </p>
       </div>
     </section>

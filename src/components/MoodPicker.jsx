@@ -200,12 +200,12 @@ export default function MoodPicker() {
                       type="button"
                       onClick={() => toggle(result)}
                       className={`mt-6 flex items-center justify-center gap-2.5 border px-5 py-3.5 font-ui text-[10px] uppercase tracking-[0.22em] transition-colors duration-500 ${
-                        has(result.name)
+                        has(result.id)
                           ? 'border-honey bg-honey text-ink'
                           : 'border-ink bg-ink text-cream hover:border-honey hover:bg-honey hover:text-ink'
                       }`}
                     >
-                      {has(result.name) ? (
+                      {has(result.id) ? (
                         <>
                           <Check className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
                           In your picks

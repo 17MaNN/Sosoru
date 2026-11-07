@@ -80,10 +80,15 @@ function SignatureCard({ item }) {
             </span>
           )}
 
-          <span aria-hidden className="absolute right-3 top-3 hanko">
-            {item.seal}
+          {/* A cream plate behind the stamp and the index, so both still read
+              once the card carries a photograph instead of the hatched field. */}
+          <span aria-hidden className="absolute right-3 top-3 bg-cream/85 p-0.5">
+            <span className="hanko flex">{item.seal}</span>
           </span>
-          <span aria-hidden className="absolute left-3 top-3 font-jp text-[11px] tracking-[0.2em] text-ink/30">
+          <span
+            aria-hidden
+            className="absolute left-3 top-3 bg-cream/85 px-1.5 py-0.5 font-jp text-[11px] leading-none tracking-[0.2em] text-ink/55"
+          >
             {item.index}
           </span>
         </div>
@@ -150,7 +155,7 @@ export default function Signatures() {
           index="02 — From the kitchen"
           en="Four things worth ordering first"
           jp="台所"
-          lead="Named for dishes the kitchen serves nightly. Dish photography is still being shot, so the plates are carved until it lands."
+          lead="Four plates the kitchen is known for: maki cut to order, katsu curry, kimchi fried rice, and cold bottles for the table."
         />
       </div>
 

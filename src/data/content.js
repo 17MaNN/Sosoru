@@ -4,6 +4,10 @@
  * Tripadvisor) in October 2026 — re-confirm before launch.
  */
 
+import { dishById } from './menu'
+
+export { menuCategories, menuNote } from './menu'
+
 export const brand = {
   name: 'Sosoru',
   kanji: '啜る',
@@ -153,9 +157,9 @@ export const gallery = [
 ]
 
 /**
- * Signature dishes. `src` is null because there is no dish photography yet —
- * the card falls back to its carved kanji. Drop an image path in and the plate
- * becomes a photograph with the same zoom.
+ * Signature dishes. `src` is the dish photograph; if it is missing the card
+ * falls back to its carved kanji. Images live in public/images, shot in the
+ * kitchen and cropped to the card's 5:4 plate by hand.
  * `kanji` is the category glyph, `seal` the hanko stamp.
  */
 export const signatures = [
@@ -165,10 +169,10 @@ export const signatures = [
     note: 'Sushi & rolls',
     kanji: '寿司',
     seal: '巻',
-    src: null,
-    alt: '',
+    src: '/images/dish-maki.webp',
+    alt: 'Thick rice rolls filled with egg, beef and pickled vegetables, cut and stacked on a white board.',
     description:
-      'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top. Pickled ginger and wasabi at the edge of the plate.',
+      'Rice rolled tight around egg, beef and pickled vegetable, cut into thick rounds and stacked down the board.',
   },
   {
     index: '02',
@@ -176,10 +180,10 @@ export const signatures = [
     note: 'Mains',
     kanji: '咖喱',
     seal: '揚',
-    src: null,
-    alt: '',
+    src: '/images/dish-katsu-curry.webp',
+    alt: 'Sliced panko cutlet over rice with golden curry, garnished with cucumber and red chilli.',
     description:
-      'A panko-crusted cutlet, sliced over rice and soft egg, with spring onion curling across the top and a glossy curry beneath.',
+      'A panko-crusted cutlet, sliced and laid over rice, with a glossy golden curry poured around it and cucumber to cut the richness.',
   },
   {
     index: '03',
@@ -187,103 +191,21 @@ export const signatures = [
     note: 'Mains',
     kanji: '炒飯',
     seal: '炒',
-    src: null,
-    alt: '',
+    src: '/images/dish-kimchi-fried-rice.webp',
+    alt: 'Kimchi fried rice in a black bowl topped with a fried egg, shredded nori and spring onion.',
     description:
-      'Kimchi folded through rice with sesame, a fried egg on top and cool lettuce on the side to cut the heat.',
+      'Kimchi folded through rice, topped with a fried egg, shredded nori and spring onion, with the cold sides alongside.',
   },
   {
     index: '04',
-    name: 'Sake, poured cold',
+    name: 'Bottles, brought cold',
     note: 'The bar',
     kanji: '酒',
     seal: '酒',
-    src: null,
-    alt: '',
+    src: '/images/dish-sake.webp',
+    alt: 'Four bottles of chilled sake and soju standing on a sunlit table.',
     description:
-      'A small ceramic carafe and cup, painted with plum blossom, brought to the table with the first plates.',
-  },
-]
-
-/**
- * PREVIEW PRICING — these rupee figures are indicative, chosen so the page can
- * be laid out and tested. Replace them with the restaurant's own card before
- * launch; `menuNote` says as much on the page. `price: null` renders nothing.
- */
-export const menuNote =
-  'A preview menu, grouped the way dishes arrive at the table. Prices shown are indicative for this layout — confirm them with the restaurant before launch.'
-
-export const menuCategories = [
-  {
-    id: 'starters',
-    index: '01',
-    label: 'Starters',
-    blurb: 'The part of the menu that arrives first and gets ordered twice.',
-    items: [
-      { name: 'Prawn tempura', desc: 'Light batter, straight from hot oil, a bowl of dipping sauce on the side.', price: 425, veg: false, tag: 'Contains shellfish' },
-      { name: 'Chicken gyoza', desc: 'Pan-fried dumplings, pleated by hand, with a black vinegar dip.', price: 345, veg: false },
-      { name: 'Kimchi, house style', desc: 'Fermented cabbage with chilli and garlic, served cold.', price: 295, veg: true, tag: 'Spicy' },
-      { name: 'Corndog jjangmyeon', desc: 'A Korean noodle bowl with a crisp corndog, black bean sauce and pickles.', price: 425, veg: false },
-    ],
-  },
-  {
-    id: 'sushi',
-    index: '02',
-    label: 'Sushi & Rolls',
-    blurb: 'Rolled and sliced to order, plated on leaves with pickled ginger and wasabi.',
-    items: [
-      { name: 'Signature maki roll', desc: 'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top.', price: 495, veg: false, tag: 'Spicy' },
-      { name: 'Salmon nigiri', desc: 'Slices of salmon over hand-pressed rice, brushed lightly with soy.', price: 465, veg: false, tag: 'Contains fish' },
-      { name: 'Sashimi plate', desc: 'A selection of the day’s fish, sliced and served without rice.', price: 795, veg: false, tag: 'Contains fish' },
-      { name: 'Crisp prawn tempura roll', desc: 'Tempura prawn, avocado and cucumber, rolled inside-out with sesame.', price: 545, veg: false, tag: 'Contains shellfish' },
-    ],
-  },
-  {
-    id: 'mains',
-    index: '03',
-    label: 'Mains',
-    blurb: 'Charcoal, rice and deep bowls — dishes built to be shared across the table.',
-    items: [
-      { name: 'Katsu curry', desc: 'Panko-crusted cutlet over rice with a soft egg, spring onion and a glossy curry.', price: 545, veg: false },
-      { name: 'Kimchi fried rice', desc: 'Rice folded through kimchi and sesame, a fried egg on top, cool lettuce alongside.', price: 425, veg: false, tag: 'Spicy' },
-      { name: 'Robata chicken skewers', desc: 'Mirin and soy glaze, grilled over heat until the edges catch.', price: 465, veg: false },
-      { name: 'Teriyaki salmon', desc: 'Glazed salmon with sesame and spring onion, steamed rice on the side.', price: 645, veg: false, tag: 'Contains fish' },
-      { name: 'Pork bulgogi', desc: 'Thin-sliced pork in a sweet-savoury marinade, grilled and wrapped in lettuce.', price: 595, veg: false, tag: 'Spicy' },
-      { name: 'Japanese curry rice', desc: 'A gentler curry built for rice, with vegetables and pickles.', price: 445, veg: true },
-    ],
-  },
-  {
-    id: 'ramen',
-    index: '04',
-    label: 'Ramen & Noodles',
-    blurb: 'Bowls that arrive too hot to touch, and are gone before they cool.',
-    items: [
-      { name: 'Tokyo ramen', desc: 'Clear broth, springy noodles, egg, greens and a sheet of nori.', price: 445, veg: false },
-      { name: 'Udon', desc: 'Thick wheat noodles in a light broth with vegetables.', price: 375, veg: true },
-      { name: 'Hakka noodles', desc: 'Wok-tossed noodles with vegetables and a slow-building heat.', price: 345, veg: true, tag: 'Spicy' },
-      { name: 'Chilli garlic noodles', desc: 'Roasted garlic, dried chilli, scallion and plenty of wok smoke.', price: 345, veg: true, tag: 'Spicy' },
-    ],
-  },
-  {
-    id: 'desserts',
-    index: '05',
-    label: 'Desserts',
-    blurb: 'One or two, ordered after the plates are cleared.',
-    items: [
-      { name: 'Mango sticky rice', desc: 'Coconut-soaked rice, ripe mango, a scatter of sesame.', price: 295, veg: true, tag: 'Seasonal' },
-      { name: 'Mochi', desc: 'Soft rice cakes with a sweet filling, served cool.', price: 245, veg: true },
-    ],
-  },
-  {
-    id: 'drinks',
-    index: '06',
-    label: 'Drinks',
-    blurb: 'Sake, highballs and long drinks, poured at the back of the room.',
-    items: [
-      { name: 'Sake, served cold', desc: 'A small carafe and cup, poured at the table.', price: 595, veg: true },
-      { name: 'Japanese highball', desc: 'Whisky, ice and soda, built tall.', price: 445, veg: true },
-      { name: 'Plum wine', desc: 'Sweet, low and served over ice.', price: 395, veg: true },
-    ],
+      'Bottles brought to the table cold and opened between you — sake and soju, poured as the plates arrive.',
   },
 ]
 
@@ -292,18 +214,18 @@ export const menuCategories = [
  * to at least one dish, so no tap ever dead-ends.
  */
 export const moodDishes = [
-  { name: 'Udon', desc: 'Thick wheat noodles in a light broth, ready in minutes.', price: 375, veg: true, weight: 'light', temp: 'hot' },
-  { name: 'Kimchi, house style', desc: 'Fermented cabbage with chilli and garlic, served cold.', price: 295, veg: true, weight: 'light', temp: 'cold' },
-  { name: 'Mochi', desc: 'Soft rice cakes with a sweet filling, served cool.', price: 245, veg: true, weight: 'light', temp: 'cold' },
-  { name: 'Prawn tempura', desc: 'Light batter, straight from hot oil, dipping sauce alongside.', price: 425, veg: false, weight: 'light', temp: 'hot' },
-  { name: 'Salmon nigiri', desc: 'Slices of salmon over hand-pressed rice, brushed with soy.', price: 465, veg: false, weight: 'light', temp: 'cold' },
-  { name: 'Signature maki roll', desc: 'Rice rolled tight around a crisp fried centre, chilli-orange top.', price: 495, veg: false, weight: 'light', temp: 'cold' },
-  { name: 'Japanese curry rice', desc: 'A gentler curry built for rice, with vegetables and pickles.', price: 445, veg: true, weight: 'hearty', temp: 'hot' },
-  { name: 'Chilli garlic noodles', desc: 'Roasted garlic, dried chilli, scallion and plenty of wok smoke.', price: 345, veg: true, weight: 'hearty', temp: 'hot' },
-  { name: 'Mango sticky rice', desc: 'Coconut-soaked rice, ripe mango, a scatter of sesame.', price: 295, veg: true, weight: 'hearty', temp: 'cold' },
-  { name: 'Tokyo ramen', desc: 'Clear broth, springy noodles, egg, greens and a sheet of nori.', price: 445, veg: false, weight: 'hearty', temp: 'hot' },
-  { name: 'Katsu curry', desc: 'Panko cutlet over rice with a soft egg and a glossy curry.', price: 545, veg: false, weight: 'hearty', temp: 'hot' },
-  { name: 'Sashimi plate', desc: 'The day’s fish, sliced and served without rice — built to share.', price: 795, veg: false, weight: 'hearty', temp: 'cold' },
+  { ...dishById('soups-Oi Muchim'), weight: 'light', temp: 'cold' },
+  { ...dishById('soups-Spinach Gomae'), weight: 'light', temp: 'cold' },
+  { ...dishById('appetisers-Vegetable Tempura'), weight: 'light', temp: 'hot' },
+  { ...dishById('appetisers-Ebi Tempura'), weight: 'light', temp: 'hot' },
+  { ...dishById('appetisers-Sosoru Style Chicken Karaage'), weight: 'light', temp: 'hot' },
+  { ...dishById('sushi-Sake (Salmon) Sashimi'), weight: 'light', temp: 'cold' },
+  { ...dishById('ramen-Tokyo Ramen'), weight: 'hearty', temp: 'hot' },
+  { ...dishById('ramen-Tonkotsu Ramen'), weight: 'hearty', temp: 'hot' },
+  { ...dishById('donburi-Bibimbap'), weight: 'hearty', temp: 'hot' },
+  { ...dishById('plates-Katsu Curry'), weight: 'hearty', temp: 'hot' },
+  { ...dishById('sushi-Veg Sushi Platter'), weight: 'hearty', temp: 'cold' },
+  { ...dishById('sushi-Non-Veg Sushi Platter'), weight: 'hearty', temp: 'cold' },
 ]
 
 export const moodQuestions = [
@@ -402,7 +324,7 @@ export const pages = {
   menu: {
     title: 'Menu — Sosoru, Dehradun',
     description:
-      'Starters, sushi and rolls, mains, ramen and noodles, desserts and drinks at Sosoru, Rajpur Road, Dehradun.',
+      'Appetisers, soups and salads, dim sum, bao, sushi and gimbap, ramen, rice and noodles, mains, pan-Asian plates, donburi, bento, Korean BBQ and the full bar at Sosoru, Rajpur Road, Dehradun.',
   },
   experience: {
     title: 'The Experience — Sosoru, Dehradun',
@@ -427,26 +349,25 @@ export const pages = {
 /** Three plates the homepage points at, pulled from the menu by hand. */
 export const homeHighlights = [
   {
-    name: 'Signature maki roll',
-    note: 'Sushi & rolls',
-    description:
-      'Rice rolled tight around a crisp fried centre, finished with a bright chilli-orange top.',
-    price: 495,
+    name: 'Katsu Curry',
+    note: 'Pan-Asian plates',
+    description: 'Tofu, chicken or prawn, with short grain rice and a glossy golden curry.',
+    price: '599 / 649 / 699',
     veg: false,
   },
   {
-    name: 'Katsu curry',
-    note: 'Mains',
-    description: 'Panko-crusted cutlet over rice with a soft egg, spring onion and a glossy curry.',
-    price: 545,
+    name: 'Sosoru Style Chicken Karaage',
+    note: 'Appetisers',
+    description: 'Japanese-style crispy fried chicken, ordered again by everyone who has been before.',
+    price: '489',
     veg: false,
   },
   {
-    name: 'Tokyo ramen',
-    note: 'Ramen & noodles',
-    description: 'Clear broth, springy noodles, egg, greens and a sheet of nori.',
-    price: 445,
-    veg: false,
+    name: 'Tokyo Ramen',
+    note: 'Ramen',
+    description: 'Miso broth, fried vegan tofu cutlet, bok choy, shiitake, corn and leeks.',
+    price: '699',
+    veg: true,
   },
 ]
 
@@ -497,7 +418,7 @@ export const experiencePage = {
     { title: 'Arrival', body: 'A noren at the door, a low room beyond it, and water poured before the menu is opened.' },
     { title: 'First plates', body: 'Cold things first — kimchi, sashimi, a roll cut to order — with the sake poured at the table.' },
     { title: 'The middle', body: 'Charcoal and rice: skewers, katsu, a bowl of ramen built to arrive too hot to touch.' },
-    { title: 'The long end', body: 'Mochi or mango sticky rice, one more highball, and nobody moving you along.' },
+    { title: 'The long end', body: 'A last plate of nigiri, one more highball, and nobody moving you along.' },
   ],
 }
 

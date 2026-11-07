@@ -2,23 +2,32 @@ import { createContext, useCallback, useContext, useMemo, useState } from 'react
 
 const PicksContext = createContext(null)
 
+/**
+ * Picks are keyed by the menu's own id where one is supplied — a few dish names
+ * repeat across sections (chilly chicken is both a starter and a gravy), so the
+ * name alone is not unique. Dishes chosen by the mood picker fall back to it.
+ */
+const keyOf = (dish) => (typeof dish === 'string' ? dish : dish.id ?? dish.name)
+
 /** A handful of dishes the guest has tapped through the picker or the menu. */
 export function PicksProvider({ children }) {
   const [picks, setPicks] = useState([])
 
   const toggle = useCallback((dish) => {
+    const id = keyOf(dish)
     setPicks((current) => {
-      const exists = current.some((item) => item.name === dish.name)
-      if (exists) return current.filter((item) => item.name !== dish.name)
-      return [...current, { name: dish.name, price: dish.price ?? null, veg: Boolean(dish.veg) }]
+      if (current.some((item) => item.id === id)) {
+        return current.filter((item) => item.id !== id)
+      }
+      return [...current, { id, name: dish.name, price: dish.price ?? null, veg: Boolean(dish.veg) }]
     })
   }, [])
 
-  const remove = useCallback((name) => {
-    setPicks((current) => current.filter((item) => item.name !== name))
+  const remove = useCallback((id) => {
+    setPicks((current) => current.filter((item) => item.id !== id))
   }, [])
 
-  const has = useCallback((name) => picks.some((item) => item.name === name), [picks])
+  const has = useCallback((id) => picks.some((item) => item.id === id), [picks])
 
   const value = useMemo(() => ({ picks, toggle, remove, has }), [picks, toggle, remove, has])
 
